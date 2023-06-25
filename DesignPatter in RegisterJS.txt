@@ -1,0 +1,138 @@
+import { Button, Container, Grid, TextField } from "@mui/material"
+import { useState } from "react"
+import axios from '../../../plugins/axios';
+
+function Register() {
+    const [account, setAccount] = useState({
+        "email": "",
+        "username": "",
+        "password": "",
+        "re_password": "",
+        "first_name": "",
+        "last_name": "",
+        "birthdate": null,
+        "gender": ""
+    })
+    var [users, setUsersCount] = useState(0)
+
+    function constructor() {
+        // We define a constructor for objects of type Person
+        function User(email, username, firstname, lastname, birthdate, gender) {
+            this.email = email;
+            this.username = username;
+            this.firstname = firstname;
+            this.lastname = lastname;
+            this.birthdate = birthdate;
+            this.gender = gender;
+
+        }
+
+        let person1 = new User(account.email, account.username, account.first_name, account.last_name, account.birthdate, account.gender);
+
+        console.log(person1);
+        commandPattern();
+    }
+
+    function commandPattern() {
+        const invoker = {
+            mergeName: (firstname, lastname, gender) => {
+                return (lastname + ", " + firstname + " is a " + gender + " user.");
+            },
+            registered: (usern, email) => {
+                return ("User: " + usern + "\nEmail: " + email + "\nRegistered!")
+            }
+        }
+
+
+        invoker.execute = function (name, args) {
+            return invoker[name] && invoker[name].apply(invoker, [].slice.call(arguments, 1));
+        }
+
+        console.log(invoker.execute("mergeName", account.first_name, account.last_name, account.gender))
+        console.log(invoker.execute("registered", account.username, account.email))
+    }
+
+
+    return (
+        <>
+            <Container>
+                <Grid container spacing={2} style={{ backgroundColor: '#bfbfbf', backgroundSize: 'cover', padding: 100, alignItems: 'center', justifyContent: 'center' }}>
+                    <Grid item md={4}></Grid>
+                    <Grid item md={4}>
+                        <h1>Fill in Information</h1>
+                        <div style={{ paddingBottom: 10 }}>
+                            <TextField fullWidth label="Email" variant="outlined" onChange={(event) => {
+                                setAccount({
+                                    ...account,
+                                    email: event.target.value
+                                })
+                            }} />
+                        </div>
+                        <div style={{ paddingBottom: 10 }}>
+                            <TextField fullWidth label="Username" variant="outlined" onChange={(event) => {
+                                setAccount({
+                                    ...account,
+                                    username: event.target.value
+                                })
+                            }} />
+                        </div>
+                        <div style={{ paddingBottom: 10 }}>
+                            <TextField fullWidth label="Password" variant="outlined" type="password" onChange={(event) => {
+                                setAccount({
+                                    ...account,
+                                    password: event.target.value
+                                })
+                            }} />
+                        </div>
+                        <div style={{ paddingBottom: 10 }}>
+                            <TextField fullWidth label="Confirm" variant="outlined" type="password" onChange={(event) => {
+                                setAccount({
+                                    ...account,
+                                    re_password: event.target.value
+                                })
+                            }} />
+                        </div>
+                        <div style={{ paddingBottom: 10 }}>
+                            <TextField fullWidth label="FirstName" variant="outlined" onChange={(event) => {
+                                setAccount({
+                                    ...account,
+                                    first_name: event.target.value
+                                })
+                            }} />
+                        </div>
+                        <div style={{ paddingBottom: 10 }}>
+                            <TextField fullWidth label="LastName" variant="outlined" onChange={(event) => {
+                                setAccount({
+                                    ...account,
+                                    last_name: event.target.value
+                                })
+                            }} />
+                        </div>
+
+                        <div style={{ paddingBottom: 10 }}>
+                            <TextField fullWidth label="BirthDate" variant="outlined" onChange={(event) => {
+                                setAccount({
+                                    ...account,
+                                    birthdate: event.target.value
+                                })
+                            }} />
+                        </div>
+                        <div style={{ paddingBottom: 10 }}>
+                            <TextField fullWidth label="Gender" variant="outlined" onChange={(event) => {
+                                setAccount({
+                                    ...account,
+                                    gender: event.target.value
+                                })
+                            }} />
+                        </div>
+                        <Button fullWidth variant="outlined" onClick={constructor}>Register</Button>
+                    </Grid>
+                    <Grid item md={4}></Grid>
+                </Grid>
+            </Container>
+        </>
+
+    )
+}
+
+export default Register
